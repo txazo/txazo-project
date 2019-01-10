@@ -12,6 +12,7 @@
     <url>https://github.com/txazo/txazo-project</url>
 
     <modules>
+        <module>txazo-project-mini-mybatis</module>
         <module>txazo-project-mybatis-generator</module>
     </modules>
 
