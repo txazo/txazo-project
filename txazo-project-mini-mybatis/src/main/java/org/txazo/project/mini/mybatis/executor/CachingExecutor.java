@@ -1,6 +1,12 @@
 package org.txazo.project.mini.mybatis.executor;
 
-public class SimpleExecutor implements Executor {
+public class CachingExecutor implements Executor {
+
+    private Executor delegate;
+
+    public CachingExecutor(Executor delegate) {
+        this.delegate = delegate;
+    }
 
     @Override
     public int update() {

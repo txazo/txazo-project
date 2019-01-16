@@ -1,14 +1,16 @@
 package org.txazo.project.mini.mybatis.transaction;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JdbcTransaction implements Transaction {
 
     private Connection connection;
+    private DataSource dataSource;
 
-    public JdbcTransaction(Connection connection) {
-        this.connection = connection;
+    public JdbcTransaction(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -18,20 +20,33 @@ public class JdbcTransaction implements Transaction {
 
     @Override
     public void commit() throws SQLException {
-        connection.commit();
+        if (connection != null) {
+            connection.commit();
+        }
     }
 
     @Override
     public void rollback() throws SQLException {
-        connection.rollback();
+        if (connection != null) {
+            connection.rollback();
+        }
     }
 
     @Override
     public void close() throws SQLException {
-        if (!connection.getAutoCommit()) {
-            connection.setAutoCommit(true);
+        if (connection != null) {
+            resetAutoCommit();
+            connection.close();
         }
-        connection.close();
+    }
+
+    private void resetAutoCommit() {
+        try {
+            if (!connection.getAutoCommit()) {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+        }
     }
 
 }

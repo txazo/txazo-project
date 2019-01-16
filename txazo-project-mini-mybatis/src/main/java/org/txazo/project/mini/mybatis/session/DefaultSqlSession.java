@@ -1,11 +1,17 @@
 package org.txazo.project.mini.mybatis.session;
 
 import org.txazo.project.mini.mybatis.executor.Executor;
-import org.txazo.project.mini.mybatis.executor.SimpleExecutor;
 
 public class DefaultSqlSession implements SqlSession {
 
-    private Executor executor = new SimpleExecutor();
+    private Configuration configuration;
+
+    private Executor executor;
+
+    public DefaultSqlSession(Configuration configuration, Executor executor) {
+        this.configuration = configuration;
+        this.executor = executor;
+    }
 
     @Override
     public <T> T selectOne(String statement) {
@@ -13,8 +19,13 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     @Override
-    public <T> T getMapper(Class<T> mapperClass) {
-        return null;
+    public <T> T getMapper(Class<T> type) {
+        return configuration.getMapper(type, this);
+    }
+
+    @Override
+    public Configuration getConfiguration() {
+        return configuration;
     }
 
 }

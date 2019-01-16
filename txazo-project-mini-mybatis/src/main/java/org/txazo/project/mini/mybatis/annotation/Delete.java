@@ -10,12 +10,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Retention(RUNTIME)
 @Target({METHOD})
-public @interface Insert {
+public @interface Delete {
 
     String value();
-
-    String keyProperty();
-
-    boolean useGeneratedKeys();
 
 }

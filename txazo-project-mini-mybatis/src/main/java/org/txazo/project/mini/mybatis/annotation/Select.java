@@ -14,6 +14,4 @@ public @interface Select {
 
     String value();
 
-    Class<?> resultType();
-
 }

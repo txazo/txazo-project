@@ -4,6 +4,8 @@ public interface SqlSession {
 
     <T> T selectOne(String statement);
 
-    <T> T getMapper(Class<T> mapperClass);
+    <T> T getMapper(Class<T> type);
+
+    Configuration getConfiguration();
 
 }

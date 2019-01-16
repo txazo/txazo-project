@@ -1,6 +1,8 @@
-package org.txazo.project.mini.mybatis.mapper;
+package org.txazo.project.mini.mybatis.binding;
 
 import org.txazo.project.mini.mybatis.session.SqlSession;
+
+import java.lang.reflect.Proxy;
 
 public class MapperProxyFactory<T> {
 
@@ -15,7 +17,8 @@ public class MapperProxyFactory<T> {
     }
 
     public T newInstance(SqlSession sqlSession) {
-        return null;
+        MapperProxy<T> mapperProxy = new MapperProxy<>(sqlSession, mapperInterface);
+        return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[]{mapperInterface}, mapperProxy);
     }
 
 }
